@@ -9,9 +9,9 @@
     - [browse](../-/jobs/artifacts/master/browse/?job=build)
 - **скачать**
     - [zip-архив](../-/jobs/artifacts/master/download/?job=build)
-    - [задание](../-/jobs/artifacts/master/raw/thesis-template-1-task.pdf?job=build)
-    - [РСПЗ](../-/jobs/artifacts/master/raw/thesis-template-2-rspz.pdf?job=build)
-    - [ПЗ](../-/jobs/artifacts/master/raw/thesis-template-3-pz.pdf?job=build)
+    - [задание](../-/jobs/artifacts/master/raw/KornachukMV-2024-1-1-uir-1-task.pdf?job=build)
+    - [РСПЗ](../-/jobs/artifacts/master/raw/KornachukMV-2024-1-1-uir-2-rspz.pdf?job=build)
+    - [ПЗ](../-/jobs/artifacts/master/raw/KornachukMV-2024-1-1-uir-3-pz.pdf?job=build)
 
 ## О шаблоне
 

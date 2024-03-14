@@ -97,7 +97,7 @@
     }
   ],
   "settings": {
-    "TEXroot": "thesis-template-3-pz.tex",
+    "TEXroot": "KornachukMV-2024-1-1-uir-2-rspz.tex",
     // "builder": "traditional"
     "builder": "basic"
   }

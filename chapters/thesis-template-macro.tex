@@ -4,10 +4,11 @@
 \setmainlanguage[numerals=cyrillic]{russian}
 \setotherlanguages{english}
 \usepackage{csquotes}
+\usepackage{etoolbox}
 
 \usepackage{xunicode}
 % some extra unicode support
-%\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{xltxtra}
 % \XeLaTeX macro
 \usepackage{fontspec}
@@ -338,10 +339,10 @@
 \renewcommand\appendixname{Приложение}
 \renewcommand\appendixpagename{Приложения}
 \renewcommand{\appendixtocname}{Приложения}
-\renewcommand{\thechapter}{
-  \stepcounter{totalappendices}
-  \Alph{chapter}
-}
+% \renewcommand{\thechapter}{
+%   \stepcounter{totalappendices}
+%   \Alph{chapter}
+% }
 
 \newcounter{totalcitations}
 \setcounter{totalcitations}{0}

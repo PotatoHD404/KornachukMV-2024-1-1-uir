@@ -101,21 +101,6 @@
 
 %\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
 
-\chapter*{Приложения}
-
-\makeatletter
-\renewcommand{\thechapter}{\ifnum \c@chapter>0 \ifnum \c@chapter<7
-\expandafter\@firstoftwo\csname cyr@\number\c@chapter\endcsname
-\else \@arabic\c@chapter \fi\fi}
-\newcommand{\cyr@1}{А}
-\newcommand{\cyr@2}{Б}
-\newcommand{\cyr@3}{В}
-\newcommand{\cyr@4}{Г}
-\newcommand{\cyr@5}{Д}
-\newcommand{\cyr@6}{Е}
-\newcommand{\cyr@6}{Ж}
-\makeatother
-
 \begin{appendices}
 
     \input{chapters/thesis-template-appendix1.tex}

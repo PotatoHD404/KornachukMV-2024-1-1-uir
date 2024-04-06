@@ -1,0 +1,54 @@
+@startuml
+class SchemaField {
+  -AtLeastOneOf: List[String]
+  -Computed: Boolean
+  -ComputedWhen: List[String]
+  -ConfigMode: Int
+  -ConflictsWith: List[String]
+  -Deprecated: String
+  -Description: String
+  -DiffSuppressOnRefresh: Boolean
+  -Elem: Option[Either[TerraformResource, SchemaField]]
+  -ExactlyOneOf: List[String]
+  -ForceNew: Boolean
+  -InputDefault: String
+  -MaxItems: Int
+  -MinItems: Int
+  -Optional: Boolean
+  -Required: Boolean
+  -RequiredWith: List[String]
+  -Sensitive: Boolean
+  -Type: Int
+}
+
+class TerraformResource {
+  -DeprecationMessage: String
+  -Description: String
+  -Schema: Map[String, SchemaField]
+}
+
+class TerraformProviderConfig {
+  -DataSourcesMap: Map[String, TerraformResource]
+  -ResourcesMap: Map[String, TerraformResource]
+  -Schema: Map[String, SchemaField]
+}
+
+class TypeContext {
+  -knownTypes: mutable.Map[String, Int]
+  -generatedPackages: mutable.Map[String, mutable.ListBuffer[(String, String)]]
+  -opaqueTypesGenerated: mutable.Map[String, Set[String]]
+}
+
+class DocsInfo {
+  -domains: Map[String, String]
+  -ips: Map[String, String]
+  -ipMasks: Map[String, String]
+  -jsonStrings: Map[String, (String, String)]
+  -fieldLinks: Map[String, String]
+  -fieldLinksSet: Set[String]
+}
+
+SchemaField <|-- TerraformResource
+SchemaField <|-- TerraformProviderConfig
+TerraformResource <|-- TerraformProviderConfig
+@enduml

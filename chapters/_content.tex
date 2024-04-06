@@ -22,6 +22,8 @@
 %[Место для распечатки отчета Антиплагиата]
 %\end{center}
 
+\sloppy
+
 \clearpage
 
 \input{chapters/thesis-template-abstract.tex}
@@ -55,6 +57,8 @@
 \input{chapters/thesis-template-conclusion.tex}
 
 \label{end_of_main_text}
+
+\fussy
 
 \setcounter{totalfigures}{\the\value{totalfigures}+\the\value{figure}}
 \setcounter{figure}{0}
@@ -95,7 +99,7 @@
 
 %\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
 
-%\begin{appendices}
+\begin{appendices}
 
 \input{chapters/thesis-template-appendix1.tex}
 
@@ -107,6 +111,18 @@
 
 \input{chapters/thesis-template-appendix3.tex}
 
-%\end{appendices}
+\clearpage
+
+\input{chapters/thesis-template-appendix4.tex}
+
+\clearpage
+
+\input{chapters/thesis-template-appendix5.tex}
+
+% \clearpage
+
+% \input{chapters/thesis-template-appendix6.tex}
+
+\end{appendices}
 
 \label{end_of_document}

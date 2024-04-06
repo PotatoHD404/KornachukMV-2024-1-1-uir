@@ -1,0 +1,69 @@
+﻿\chapter{Сокращенный код анализатора документации}\label{sec:appendix5}
+
+\begin{minted}{Scala}
+package terraform.parser
+
+import io.circe.*
+import io.circe.parser.*
+
+import scala.io.Source
+import scala.util.Try
+import scala.util.matching.Regex
+
+sealed trait JsonValue
+
+case class JsonString(value: String) extends JsonValue
+case class JsonBool(value: Boolean) extends JsonValue
+case class JsonLong(value: Long) extends JsonValue
+case class JsonDouble(value: Double) extends JsonValue
+
+// Здесь определены декодеры для различных типов JsonValue
+implicit val decodeJson: Decoder[JsonValue] = ...
+
+type JsonMap = Map[String, List[JsonValue]]
+
+case class DocsInfo(domains: Map[String, String],
+                    ips: Map[String, String],
+                    ipMasks: Map[String, String],
+                    jsonStrings: Map[String, (String, String)],
+                    fieldLinks: Map[String, String],
+                    fieldLinksSet: Set[String])
+
+// Функция для декодирования JSON-строки в JsonMap
+def decodeJsonMap(jsonString: String): JsonMap = ...
+
+// Функция для фильтрации JsonMap, оставляя только нужные ключи
+def filterJsonMap(jsonMap: JsonMap): JsonMap = ...
+
+// Функция для определения регулярных выражений,
+// используемых для фильтрации значений
+def definePatterns(): (Regex, Regex, Regex, Regex) = ...
+
+// Функция для получения уникальных значений из JsonMap
+def getDistinctValues(map: JsonMap): List[(String, String)] = ...
+
+// Функция для получения пар поле-значение
+def getFieldValuePairs(distinctValues: List[(String, String)],
+                       fieldPattern: Regex): List[(String, String)] = ...
+
+// Функция для получения модифицированных значений полей
+def getModifiedFieldValues(fieldValues: List[(String, String)],
+                           fieldPattern: Regex): List[(String, String)] = ...
+
+// Функция для фильтрации и сбора значений по определенному условию
+def filterAndCollectValues(map: JsonMap,
+                           condition: String => Boolean): List[(String, String)]
+= ...
+
+// Функция для получения значений JSON из других значений
+def getJsonValues(otherValues: JsonMap
+                  ): List[(String, String, String)] = ...
+
+object DocsParser {
+    def decodeAndFilterJson(jsonString: String): DocsInfo = {
+    // Здесь происходит основная логика обработки JSON-строки
+    // и преобразования ее в объект DocsInfo
+    ...
+    }
+}
+\end{minted}

@@ -1,0 +1,64 @@
+﻿\chapter{Пример использования генератора case классов}\label{sec:appendix6}
+
+\begin{minted}{Scala}
+package terraform
+
+import io.circe.parser.decode
+import io.circe.generic.auto.*
+import terraform.parser.DocsParser
+import terraform.parser.TerraformProviderConfig
+import terraform.parser.generateCaseClasses
+import java.io.File
+import java.nio.file.{Files, Paths}
+import scala.io.Source
+
+def createClassFile(packageName: String,
+                    classes: List[(String, String)],
+                    basePath: String): Unit = {
+
+    val packagePath = packageName.replace(".", "/")
+    val fullPath = s"$basePath/$packagePath"
+
+    val directory = new File(fullPath)
+    if (!directory.exists()) {
+    directory.mkdirs()
+    }
+
+    classes.foreach { case (className, classCode) =>
+    val filePath = s"$fullPath/$className.scala"
+    Files.write(Paths.get(filePath), classCode.getBytes)
+    }
+}
+
+
+@main
+def main(): Unit = {
+    // Assuming you have the JSON string
+    var source = 
+    Source.fromFile("./yandex.json")
+    val jsonString = source.getLines().mkString
+    source.close()
+
+    val parsedDocs = DocsParser.decodeAndFilterJson(jsonString)
+
+    source = Source.fromFile("./yandex.json")
+    val jsonStr = source.getLines().mkString
+    source.close()
+    val terraformProviderConfig = 
+        decode[TerraformProviderConfig](jsonStr)
+    terraformProviderConfig match {
+    case Right(config) =>
+        val generatedPackages =
+         generateCaseClasses(config,
+                            "terraform.providers.yandex",
+                            "Yandex",
+                             parsedDocs)
+
+        val basePath = "./hcl_generator/src/main/scala"
+        generatedPackages.foreach { case (packageName, classes) =>
+        createClassFile(packageName, classes, basePath)
+        }
+    case Left(error) => println(s"Error parsing JSON: $error")
+    }
+}
+\end{minted}

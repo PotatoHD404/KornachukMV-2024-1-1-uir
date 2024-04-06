@@ -22,4 +22,6 @@
 *.fls
 *.xdv
 .idea
-\#*\#
+
+*.sublime-project
+*.tcp

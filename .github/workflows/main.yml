@@ -1,0 +1,66 @@
+name: LaTeX Build and Diff
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: potatohd/latex:latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Build LaTeX
+      run: |
+        chmod +x ./build_tex.sh
+        ./build_tex.sh /home/latex
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: pdf-artifacts
+        path: |
+          /home/latex/build/*.pdf
+
+  # build:
+  #   runs-on: ubuntu-latest
+
+  #   container:
+  #     image: aergus/latex:2022-01-02
+
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
+  #     with:
+  #       submodules: recursive
+  #       fetch-depth: 0
+
+  #   - name: Install git-latexdiff
+  #     run: |
+  #       git clone https://gitlab.com/git-latexdiff/git-latexdiff.git
+  #       cd git-latexdiff
+  #       make install-bin
+
+  #   - name: Git latexdiff
+  #     run: |
+  #       mkdir git-latexdiff-out
+  #       git fetch origin main
+  #       git latexdiff --xelatex --no-view --tmpdirprefix git-latexdiff-out main
+
+  #   - name: Upload Diff
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: diff-artifacts
+  #       path: git-latexdiff-out/*/*.pdf
+
+  #   - name: Handle failures
+  #     if: failure()
+  #     run: exit 0

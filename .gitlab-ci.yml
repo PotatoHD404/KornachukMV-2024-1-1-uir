@@ -1,4 +1,4 @@
-image: aergus/latex:2022-01-02
+image: potatohd/latex:latest
 
 stages:
   - build
@@ -10,10 +10,11 @@ variables:
 build:
   stage: build
   script:
-    - latexmk -xelatex
+    - mv /home/latex/* $CI_PROJECT_DIR
+    - ./build_tex.sh $CI_PROJECT_DIR
   artifacts:
     paths:
-      - "*.pdf"
+      - "$CI_PROJECT_DIR/build/*.pdf"
 
 diff_master:
   stage: diff

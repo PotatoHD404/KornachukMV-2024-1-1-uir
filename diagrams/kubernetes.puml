@@ -1,0 +1,111 @@
+@startuml
+
+class KuberInfo {
+  + nodes: Map[String, MyNode]
+  + podsWithoutNode: Map[String, MyPod]
+  + unscheduledPods: Map[String, MyPod]
+  + events: List[MyEvent]
+  + namespaces: Set[String]
+  --
+  + fromNodesAndPods(nodes: List[Node], pods: List[Pod], events: List[Event], namespaces: NamespaceList): KuberInfo
+  + createEmpty: KuberInfo
+}
+
+class MyEvent {
+  + reason: Option[String]
+  + message: Option[String]
+  + source: Option[String]
+  + firstSeen: Option[String]
+  + lastSeen: Option[String]
+  + count: Int
+  + eventType: Option[String]
+  + uid: String
+  + podUid: Option[String]
+  --
+  + fromEvent(event: Event): MyEvent
+}
+
+class MyNode {
+  + name: String
+  + status: Map[String, Boolean]
+  + pods: Map[String, MyPod]
+  + ip: Map[String, String]
+  + allocatedResources: AllocatedResources
+  + capacity: Map[String, BigDecimal]
+  + allocatable: Map[String, BigDecimal]
+  + uid: String
+  --
+  + fromNode(node: Node): MyNode
+  + fromNode(node: Node, pods: List[Pod], events: List[Event]): MyNode
+}
+
+class AllocatedResources {
+  + cpuRequests: BigDecimal
+  + cpuLimits: BigDecimal
+  + memoryRequests: BigDecimal
+  + memoryLimits: BigDecimal
+  + ephemeralStorageRequests: BigDecimal
+  + ephemeralStorageLimits: BigDecimal
+  + hugepages2MiRequests: BigDecimal
+  + hugepages2MiLimits: BigDecimal
+  + hugepages1GiRequests: BigDecimal
+  + hugepages1GiLimits: BigDecimal
+}
+
+class ContainerStates {
+  + id: String
+}
+
+class PodConditions {
+  + conditionType: String
+  + status: Boolean
+}
+
+class MyPod {
+  + ip: Option[String]
+  + name: String
+  + status: Option[String]
+  + startedAt: Option[String]
+  + createdAt: Option[String]
+  + age: Option[String]
+  + ageInSec: Long
+  + restarts: Int
+  + states: List[ContainerStates]
+  + allocatedResources: AllocatedResources
+  + namespace: String
+  + isSystem: Boolean
+  + failedScheduling: Boolean
+  + events: Map[String, MyEvent]
+  + conditions: List[PodConditions]
+  + uid: String
+  --
+  + fromPod(pod: Pod): MyPod
+  + fromPod(pod: Pod, events: List[Event]): MyPod
+}
+
+class MyWatchEvent {
+  + eventType: EventType
+  + pod: Option[MyPod]
+  + node: Option[MyNode]
+  + namespace: Option[String]
+  + event: Option[MyEvent]
+}
+
+KuberInfo --> MyNode : <<use>>
+KuberInfo --> MyPod : <<use>>
+KuberInfo --> MyEvent : <<use>>
+KuberInfo --> NamespaceList : <<use>>
+MyEvent --> Event : <<use>>
+MyNode --> Node : <<use>>
+MyNode --> Pod : <<use>>
+MyNode --> AllocatedResources : <<use>>
+MyPod --> ContainerStates : <<use>>
+MyPod --> PodConditions : <<use>>
+MyPod --> AllocatedResources : <<use>>
+MyPod --> MyEvent : <<use>>
+MyWatchEvent --> MyPod : <<use>>
+MyWatchEvent --> MyNode : <<use>>
+MyWatchEvent --> EventType : <<use>>
+MyWatchEvent --> MyEvent : <<use>>
+
+@enduml

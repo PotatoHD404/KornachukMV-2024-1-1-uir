@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  latex-build:
+    image: potatohd/latex:latest
+    volumes:
+      - .:/workspace
+    command: /bin/sh -c "/home/latex/build_tex.sh /workspace"

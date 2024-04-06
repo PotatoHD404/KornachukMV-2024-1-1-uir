@@ -1,0 +1,71 @@
+@startuml
+skinparam classAttributeIconSize 0
+abstract class "TerraformResource" {
++toHCL(): String
+}
+class "ProviderType" as PT
+interface "ProviderSettings[T <: PT]" as PS
+interface "BackendResource" as BR
+interface "InfrastructureResource[T <: PT]" as IR
+interface "InputVarResource" as IVR
+interface "LocalVarResource" as LVR
+interface "OutputVarResource" as OVR
+class "ProviderConfig[A <: PT, T1 <: PS[A], T2 <: BR, T3 <: IR[A]]" as PC {
++toHCL(): String
++provider: T1
++backend: Option[T2]
++resources: List[T3]
++inputVars: List[IVR]
++localVars: List[LVR]
++outputVars: List[OVR]
+}
+class "YandexProviderSettings" as YPS {
++toHCL(): String
++cloudId: Option[String]
++endpoint: Option[String]
++folderId: Option[String]
+}
+class "Yandex" as Y extends PT
+class "YandexProviderConfig[T1 <: PS[Y], T2 <: BR, T3 <: IR[Y]]" as YPC {
++toHCL(): String
++provider: T1
++backend: Option[T2]
++resources: List[T3]
++inputVars: List[IVR]
++localVars: List[LVR]
++outputVars: List[OVR]
+}
+class "YandexAlbTargetGroup" as YATG {
++toHCL(): String
++resourceName: String
++createdAt: Option[String]
++description: Option[String]
+}
+class "Target" as T {
++toHCL(): String
++ipAddress: String
++privateIpv4Address: Option[Boolean]
++subnetId: Option[String]
+}
+PS --|> TerraformResource
+BR --|> TerraformResource
+IR --|> TerraformResource
+IVR --|> TerraformResource
+LVR --|> TerraformResource
+OVR --|> TerraformResource
+PC --|> TerraformResource
+YPS --|> PS: T = Y
+YPS ..> Y: <<use>>
+YPC --|> PC
+YPC ..> YPS: <<use>>
+YATG --|> IR: T = Y
+YATG ..> T: <<use>>
+
+
+PC ..> PS: <<use>>
+PC ..> BR: <<use>>
+PC ..> IR: <<use>>
+PC ..> IVR: <<use>>
+PC ..> LVR: <<use>>
+PC ..> OVR: <<use>>
+@enduml

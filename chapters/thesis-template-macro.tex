@@ -24,7 +24,7 @@
 % \ifwindows
 \newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
-\newfontfamily{\cyrillicfonttt}{Courier New}
+\newfontfamily{\cyrillicfonttt}{Times New Roman}
 \setmonofont{Courier New}
 % \else
 %   \setmainfont{Linux Libertine O}
@@ -35,7 +35,9 @@
 %нумерация справа и колонтитулы справа вверху
 \usepackage{fancyhdr}
 \usepackage[a4paper,left=30mm,right=15mm,top=20mm,bottom=20mm,bindingoffset=0cm]{geometry}
-%
+\usepackage{setspace}
+\onehalfspacing
+
 
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -78,19 +80,18 @@
 \tolerance=10
 \setlength{\emergencystretch}{1pt}
 
-\usepackage[singlelinecheck=false,labelsep=endash]{caption}
-\captionsetup[table]{justification=justified}
-\captionsetup[figure]{justification=justified,name=Рисунок,singlelinecheck=on,font=onehalfspacing}
+\usepackage[singlelinecheck=false,font=onehalfspacing,labelsep=endash]{caption}
+\DeclareCaptionLabelSeparator{endash}{~--- }
+\captionsetup[table]{justification=raggedright,position=top}
+\captionsetup[figure]{justification=raggedright,name=Рисунок,position=bottom}
 
 \usepackage{titlesec}
-\titleformat{\chapter}[block]{\centering\normalfont\Large\bfseries}{\thechapter.}{1ex}{}{}
-\titlespacing{\chapter}{0pt}{0em}{2em}
-
-\titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1ex}{}{}
-\titlespacing{\section}{0pt}{0em}{1ex}
-
-\titleformat{\subsection}[block]{\normalfont\normalsize\bfseries}{\thesubsection}{1ex}{}{}
-\titlespacing{\section}{0pt}{0em}{1ex}
+\titleformat{\chapter}[block]{\normalfont\large\bfseries\filcenter}{\thechapter.}{1ex}{}
+\titlespacing*{\chapter}{0pt}{0pt}{14pt}
+\titleformat{\section}[block]{\normalfont\fontsize{13}{15}\selectfont\bfseries}{\thesection}{1ex}{}
+\titlespacing*{\section}{0pt}{12pt}{0pt}
+\titleformat{\subsection}[block]{\normalfont\fontsize{12}{15}\selectfont\bfseries}{\thesubsection}{1ex}{}
+\titlespacing*{\subsection}{0pt}{12pt}{0pt}
 
 	% paragraph и subparagraph -- в тексте, без отступов
 \titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{\theparagraph}{0pt}{}{}
@@ -99,19 +100,14 @@
 \titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries}{\thesubparagraph}{0pt}{}{}
 \titlespacing{\subparagraph}{0pt}{0em}{0ex}
 
+\frenchspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
 
 % Своё название для Cписка литературы
-\usepackage[title, titletoc]{appendix}
-\addto\captionsrussian{
-% Replace "english" with the language you use
-        \renewcommand{\contentsname}
-%
-        {Содержание}
-%
-}
 
-%\renewcommand{\appendixname}{Приложение}% Change "chapter name" for Appendix chapters
-%\renewcommand{\cftchapdotsep}{\cftdotsep}
+
+
 
 \usepackage{mathpartir}
 
@@ -130,6 +126,7 @@
 %% Список литературы
 
 \usepackage[
+  backend=biber,
   style=gost-numeric,
   sorting=none,
   language=auto,
@@ -324,3 +321,46 @@
 \newcounter{totalfigures}
 \newcounter{totaltables}
 \newcounter{totallistings}
+
+\usepackage[title, titletoc]{appendix}
+
+\addto\captionsrussian{
+% Replace "english" with the language you use
+        \renewcommand{\contentsname}
+%
+        {Содержание}
+%
+}
+
+\newcounter{totalappendices}
+\setcounter{totalappendices}{0}
+
+\renewcommand\appendixname{Приложение}
+\renewcommand\appendixpagename{Приложения}
+\renewcommand{\appendixtocname}{Приложения}
+\renewcommand{\thechapter}{
+  \stepcounter{totalappendices}
+  \Alph{chapter}
+}
+
+\newcounter{totalcitations}
+\setcounter{totalcitations}{0}
+\AtEveryBibitem{\stepcounter{totalcitations}}
+
+% \newcommand{\newappendix}{%
+ 
+%   \section*{Приложение \Alph{totalappendices}}%
+% }
+% \renewcommand{\appendix} {
+%   \stepcounter{totalappendices}
+%   \theappendix
+% }
+% \gdef\theappendix{\ifnum\c@appendix=1 А\else\ifnum\c@appendix=2 Б\else\ifnum\c@appendix=3 В\else\ifnum\c@appendix=4 Г\else\ifnum\c@appendix=5 Д\else\ifnum\c@appendix=6 Е\else\ifnum\c@appendix=7 Ж\else\@Alph\c@appendix\fi\fi\fi\fi\fi\fi\fi}
+% \makeatletter
+% \renewcommand{\theappendix}{%
+%   \stepcounter{totalappendices}%
+%   \ifcase\c@appendix\or А\or Б\or В\or Г\or Д\or Е\or Ж\or З\or И\or К\or Л\or М\or Н\or О\else\@Alph\c@appendix\fi}
+% \makeatother
+
+
+\sloppy

@@ -84,44 +84,61 @@
 
 \clearpage
 
-%\chapter*{Приложения}
-%\addcontentsline{toc}{chapter}{Приложения}
-%\appendixtocon
-%\renewcommand{\appendixname}{Приложение}
 \appendix
-\renewcommand{\appendixtocname}{Приложения}
-\addappheadtotoc
+
+
+%\addcontentsline{toc}{chapter}{Приложения}
+\appendixtocon
+%\renewcommand{\appendixname}{Приложение}
+
+% \renewcommand{\appendixtocname}{Приложения}
+% \addappheadtotoc
 %\titleformat{\chapter}[block]{\centering\normalfont\Large\bfseries}{\chaptername{} \thechapter.}{1ex}{}{}
-\renewcommand{\chaptername}{Приложение}
+% \renewcommand{\chaptername}{Приложение}
 %\renewcommand*\printchaptername{\Large\bfseries\appendixname~}
 %\renewcommand{\thechapter}{Приложение \Alph{chapter}}
 %\renewcommand{\thechaptertoc}{Приложение \Alph{chapter}}
 
 %\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
 
+\chapter*{Приложения}
+
+\makeatletter
+\renewcommand{\thechapter}{\ifnum \c@chapter>0 \ifnum \c@chapter<7
+\expandafter\@firstoftwo\csname cyr@\number\c@chapter\endcsname
+\else \@arabic\c@chapter \fi\fi}
+\newcommand{\cyr@1}{А}
+\newcommand{\cyr@2}{Б}
+\newcommand{\cyr@3}{В}
+\newcommand{\cyr@4}{Г}
+\newcommand{\cyr@5}{Д}
+\newcommand{\cyr@6}{Е}
+\newcommand{\cyr@6}{Ж}
+\makeatother
+
 \begin{appendices}
 
-\input{chapters/thesis-template-appendix1.tex}
+    \input{chapters/thesis-template-appendix1.tex}
 
-\clearpage
+    \clearpage
 
-\input{chapters/thesis-template-appendix2.tex}
+    \input{chapters/thesis-template-appendix2.tex}
 
-\clearpage
+    \clearpage
 
-\input{chapters/thesis-template-appendix3.tex}
+    \input{chapters/thesis-template-appendix3.tex}
 
-\clearpage
+    \clearpage
 
-\input{chapters/thesis-template-appendix4.tex}
+    \input{chapters/thesis-template-appendix4.tex}
 
-\clearpage
+    \clearpage
 
-\input{chapters/thesis-template-appendix5.tex}
+    \input{chapters/thesis-template-appendix5.tex}
 
-% \clearpage
+    \clearpage
 
-% \input{chapters/thesis-template-appendix6.tex}
+    \input{chapters/thesis-template-appendix6.tex}
 
 \end{appendices}
 
